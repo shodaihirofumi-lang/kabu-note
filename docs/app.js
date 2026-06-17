@@ -11,6 +11,9 @@ function load() {
 function save() { localStorage.setItem(KEY, JSON.stringify(db)); }
 let db = load();
 
+let autoPrices = {};      // prices.json から読み込む自動株価（終値）
+let pricesUpdated = null; // 自動株価の最終更新時刻(ISO)
+
 /* ===== ユーティリティ ===== */
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -65,6 +68,17 @@ function allTickers() {
   return [...set].sort();
 }
 
+// 有効な現在値: 手動入力が最優先、無ければ自動取得(prices.json)を使う
+function effPrice(ticker, m) {
+  m = m || db.memos[ticker] || {};
+  if (m.currentPrice != null && m.currentPrice !== '') {
+    return { price: Number(m.currentPrice), source: 'manual', date: null };
+  }
+  const a = autoPrices[ticker];
+  if (a && a.price != null) return { price: Number(a.price), source: 'auto', date: a.date };
+  return { price: null, source: null, date: null };
+}
+
 /* ===== ダッシュボード ===== */
 function renderDashboard() {
   let realized = 0, sells = 0, wins = 0, holdings = 0, unreal = 0, hasCur = false;
@@ -73,8 +87,8 @@ function renderDashboard() {
     realized += s.realized; sells += s.sells; wins += s.wins;
     if (s.qty > 0) {
       holdings++;
-      const cur = db.memos[tk] && db.memos[tk].currentPrice;
-      if (cur != null && cur !== '') { hasCur = true; unreal += (Number(cur) - s.avgCost) * s.qty; }
+      const ep = effPrice(tk);
+      if (ep.price != null) { hasCur = true; unreal += (ep.price - s.avgCost) * s.qty; }
     }
   }
   const winRate = sells > 0 ? Math.round(wins / sells * 100) : null;
@@ -87,7 +101,7 @@ function renderDashboard() {
     <div class="stat-card">
       <div class="label">含み損益</div>
       <div class="value ${hasCur ? pnlCls(unreal) : 'muted'}">${hasCur ? signed(unreal) : '—'}</div>
-      <div class="sub">現在値の登録で自動計算</div>
+      <div class="sub">${pricesUpdated ? '株価 ' + pricesUpdated.slice(0, 10) + ' 自動更新' : '現在値の登録で自動計算'}</div>
     </div>
     <div class="stat-card">
       <div class="label">勝率</div>
@@ -175,9 +189,9 @@ function renderStocks() {
   $('#stockList').innerHTML = tickers.map(tk => {
     const s = tickerStats(tk);
     const m = db.memos[tk] || { name: '', memo: '', tags: [], currentPrice: '' };
-    const cur = m.currentPrice;
-    const hasCur = cur != null && cur !== '';
-    const unreal = hasCur && s.qty > 0 ? (Number(cur) - s.avgCost) * s.qty : null;
+    const ep = effPrice(tk, m);
+    const hasCur = ep.price != null;
+    const unreal = hasCur && s.qty > 0 ? (ep.price - s.avgCost) * s.qty : null;
     const winRate = s.sells > 0 ? Math.round(s.wins / s.sells * 100) + '%' : '—';
     const hist = db.trades.filter(t => t.ticker === tk).sort((a, b) => byDateAsc(b, a)).map(t => `
       <div class="hist-item">
@@ -201,7 +215,12 @@ function renderStocks() {
       </div>
       <div class="stock-row">
         <label>現在値</label>
-        <input type="number" step="0.01" class="cur-input" value="${hasCur ? esc(cur) : ''}" placeholder="株価">
+        <input type="number" step="0.01" class="cur-input" value="${m.currentPrice != null && m.currentPrice !== '' ? esc(m.currentPrice) : ''}" placeholder="${ep.source === 'auto' ? esc(ep.price) : '手動入力'}">
+        ${ep.source === 'auto' ? `<span class="src-badge auto">自動 ${esc(ep.date || '')}</span>` : ''}
+        ${ep.source === 'manual' ? '<span class="src-badge manual">手動</span>' : ''}
+        ${ep.source === null && s.qty > 0 ? '<span class="src-badge none">自動対象外</span>' : ''}
+      </div>
+      <div class="stock-row">
         <label>タグ</label>
         <input type="text" class="tag-input" value="${esc((m.tags || []).join(', '))}" placeholder="高配当, 長期">
       </div>
@@ -360,17 +379,36 @@ function loadSample() {
   db.trades = [
     { id: uid(), date: d(60), side: 'buy', ticker: '7203', name: 'トヨタ自動車', price: 2500, qty: 100, fee: 0, tags: ['高配当', '長期'], reason: '円安メリットと高配当狙い。決算good。', reflection: '', createdAt: Date.now() - 6000 },
     { id: uid(), date: d(20), side: 'sell', ticker: '7203', name: 'トヨタ自動車', price: 2780, qty: 100, fee: 0, tags: ['利確'], reason: '目標株価に到達。', reflection: 'もう少し持てたが、利確ルール通りでOK。', createdAt: Date.now() - 5000 },
-    { id: uid(), date: d(45), side: 'buy', ticker: '6758', name: 'ソニーグループ', price: 13000, qty: 10, fee: 0, tags: ['グロース'], reason: 'ゲーム・半導体の成長期待。', reflection: '', createdAt: Date.now() - 4000 },
-    { id: uid(), date: d(10), side: 'buy', ticker: '9984', name: 'ソフトバンクグループ', price: 9000, qty: 20, fee: 0, tags: ['AI'], reason: 'AI関連で出遅れ。Arm期待。', reflection: '', createdAt: Date.now() - 3000 }
+    { id: uid(), date: d(45), side: 'buy', ticker: '6758', name: 'ソニーグループ', price: 2900, qty: 10, fee: 0, tags: ['グロース'], reason: 'ゲーム・半導体の成長期待。', reflection: '', createdAt: Date.now() - 4000 },
+    { id: uid(), date: d(10), side: 'buy', ticker: '9984', name: 'ソフトバンクグループ', price: 6500, qty: 20, fee: 0, tags: ['AI'], reason: 'AI関連で出遅れ。Arm期待。', reflection: '', createdAt: Date.now() - 3000 }
   ];
   db.memos = {
-    '7203': { name: 'トヨタ自動車', memo: '配当利回り重視。為替前提に注意。', tags: ['高配当', '長期'], currentPrice: 2750, updatedAt: Date.now() },
-    '6758': { name: 'ソニーグループ', memo: 'ゲーム・イメージセンサー・金融の複合企業。', tags: ['グロース'], currentPrice: 13500, updatedAt: Date.now() },
-    '9984': { name: 'ソフトバンクグループ', memo: 'NAVディスカウント。Armの動向次第。', tags: ['AI'], currentPrice: 9200, updatedAt: Date.now() }
+    '7203': { name: 'トヨタ自動車', memo: '配当利回り重視。為替前提に注意。', tags: ['高配当', '長期'], currentPrice: '', updatedAt: Date.now() },
+    '6758': { name: 'ソニーグループ', memo: 'ゲーム・イメージセンサー・金融の複合企業。', tags: ['グロース'], currentPrice: '', updatedAt: Date.now() },
+    '9984': { name: 'ソフトバンクグループ', memo: 'NAVディスカウント。Armの動向次第。', tags: ['AI'], currentPrice: '', updatedAt: Date.now() }
   };
   save(); renderAll(); toast('サンプルデータを読み込みました');
 }
 
+/* ===== 株価の自動取得（prices.json を同一オリジンから読み込み） ===== */
+async function loadPrices() {
+  try {
+    const res = await fetch('prices.json?t=' + Date.now());
+    if (res.ok) {
+      const d = await res.json();
+      autoPrices = d.prices || {};
+      pricesUpdated = d.updated || null;
+    }
+  } catch (e) { /* オフライン等は無視（手動入力は使える） */ }
+  renderAll();
+}
+const refreshBtn = $('#refreshPrices');
+if (refreshBtn) refreshBtn.addEventListener('click', async () => {
+  await loadPrices();
+  toast(pricesUpdated ? '株価を更新しました（' + pricesUpdated.slice(0, 10) + '）' : '株価データがまだありません');
+});
+
 /* ===== 初期化 ===== */
 $('#f_date').value = today();
 renderAll();
+loadPrices();

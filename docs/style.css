@@ -143,6 +143,10 @@ textarea { resize: vertical; }
 .stock-row { display: flex; gap: 8px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
 .stock-row label { font-size: 12px; color: var(--muted); }
 .stock-row input { width: 120px; }
+.src-badge { font-size: 11px; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
+.src-badge.auto { background: rgba(91,140,255,.18); color: #bcd0ff; }
+.src-badge.manual { background: rgba(46,204,143,.16); color: var(--profit); }
+.src-badge.none { background: rgba(147,162,196,.15); color: var(--muted); }
 .history { margin-top: 12px; border-top: 1px solid var(--border); padding-top: 10px; }
 .history h4 { margin: 0 0 6px; font-size: 12px; color: var(--muted); }
 .hist-item { display: flex; gap: 8px; font-size: 13px; padding: 3px 0; align-items: center; }

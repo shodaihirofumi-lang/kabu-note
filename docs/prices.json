@@ -1,0 +1,469 @@
+{
+  "updated": "2026-06-17T16:52:44.134Z",
+  "source": "Yahoo Finance（終値/遅延・参考値）",
+  "count": 77,
+  "prices": {
+    "2413": {
+      "price": 1605,
+      "prevClose": 1614.5,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "2502": {
+      "price": 1515.5,
+      "prevClose": 1545,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "2503": {
+      "price": 2732.5,
+      "prevClose": 2739.5,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "2802": {
+      "price": 5340,
+      "prevClose": 5084,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "2914": {
+      "price": 6071,
+      "prevClose": 6305,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "3382": {
+      "price": 1933,
+      "prevClose": 1942,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "3402": {
+      "price": 1190,
+      "prevClose": 1118.5,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "3407": {
+      "price": 1790,
+      "prevClose": 1760,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "4063": {
+      "price": 7549,
+      "prevClose": 6858,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "4307": {
+      "price": 4596,
+      "prevClose": 4600,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "4385": {
+      "price": 3938,
+      "prevClose": 3716,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "4452": {
+      "price": 6177,
+      "prevClose": 6070,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "4502": {
+      "price": 4938,
+      "prevClose": 5033,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "4519": {
+      "price": 7650,
+      "prevClose": 7428,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "4543": {
+      "price": 2246,
+      "prevClose": 2264,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "4568": {
+      "price": 2595.5,
+      "prevClose": 2495,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "4578": {
+      "price": 10570,
+      "prevClose": 10220,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "4661": {
+      "price": 2291,
+      "prevClose": 2305.5,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "4901": {
+      "price": 3377,
+      "prevClose": 3485,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "5108": {
+      "price": 3504,
+      "prevClose": 3360,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "5401": {
+      "price": 557.5,
+      "prevClose": 535,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "5713": {
+      "price": 9155,
+      "prevClose": 7735,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6098": {
+      "price": 10520,
+      "prevClose": 11155,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6146": {
+      "price": 83700,
+      "prevClose": 70030,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6273": {
+      "price": 72600,
+      "prevClose": 61920,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6301": {
+      "price": 6650,
+      "prevClose": 6405,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6326": {
+      "price": 2855,
+      "prevClose": 2701.5,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6367": {
+      "price": 23680,
+      "prevClose": 23070,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6501": {
+      "price": 4701,
+      "prevClose": 4655,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6503": {
+      "price": 5863,
+      "prevClose": 5446,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6594": {
+      "price": 2796,
+      "prevClose": 2548,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6701": {
+      "price": 3852,
+      "prevClose": 4000,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6702": {
+      "price": 3256,
+      "prevClose": 3367,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6752": {
+      "price": 4200,
+      "prevClose": 3767,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6758": {
+      "price": 3286,
+      "prevClose": 3369,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6861": {
+      "price": 75600,
+      "prevClose": 71270,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6902": {
+      "price": 1917,
+      "prevClose": 1834.5,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6920": {
+      "price": 52700,
+      "prevClose": 40200,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6954": {
+      "price": 7515,
+      "prevClose": 6778,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "6981": {
+      "price": 10865,
+      "prevClose": 8967,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "7011": {
+      "price": 3860,
+      "prevClose": 3494,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "7012": {
+      "price": 3266,
+      "prevClose": 2749.5,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "7201": {
+      "price": 349.8,
+      "prevClose": 328.8,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "7203": {
+      "price": 2810,
+      "prevClose": 2747.5,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "7259": {
+      "price": 2371,
+      "prevClose": 2287,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "7267": {
+      "price": 1415.5,
+      "prevClose": 1427.5,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "7269": {
+      "price": 1950,
+      "prevClose": 1786.5,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "7270": {
+      "price": 2582.5,
+      "prevClose": 2480,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "7733": {
+      "price": 1612,
+      "prevClose": 1740.5,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "7741": {
+      "price": 27620,
+      "prevClose": 25650,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "7751": {
+      "price": 4372,
+      "prevClose": 4275,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "7832": {
+      "price": 3612,
+      "prevClose": 3665,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "7974": {
+      "price": 7275,
+      "prevClose": 7144,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "8001": {
+      "price": 1860.5,
+      "prevClose": 1826,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "8002": {
+      "price": 4949,
+      "prevClose": 4812,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "8031": {
+      "price": 4719,
+      "prevClose": 4857,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "8035": {
+      "price": 72640,
+      "prevClose": 63400,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "8053": {
+      "price": 6547,
+      "prevClose": 6186,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "8058": {
+      "price": 4610,
+      "prevClose": 4605,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "8306": {
+      "price": 3272,
+      "prevClose": 3141,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "8316": {
+      "price": 6450,
+      "prevClose": 6203,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "8411": {
+      "price": 8006,
+      "prevClose": 7394,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "8591": {
+      "price": 6336,
+      "prevClose": 6050,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "8604": {
+      "price": 1451,
+      "prevClose": 1352.5,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "8725": {
+      "price": 4557,
+      "prevClose": 4552,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "8766": {
+      "price": 7252,
+      "prevClose": 7404,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "9020": {
+      "price": 3345,
+      "prevClose": 3460,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "9022": {
+      "price": 3297,
+      "prevClose": 3405,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "9101": {
+      "price": 5348,
+      "prevClose": 5660,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "9104": {
+      "price": 5438,
+      "prevClose": 5712,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "9107": {
+      "price": 2529,
+      "prevClose": 2675,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "9432": {
+      "price": 146.9,
+      "prevClose": 150.7,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "9433": {
+      "price": 2728,
+      "prevClose": 2757.5,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "9434": {
+      "price": 210.1,
+      "prevClose": 215,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "9766": {
+      "price": 19030,
+      "prevClose": 19235,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "9983": {
+      "price": 82900,
+      "prevClose": 78480,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    },
+    "9984": {
+      "price": 6880,
+      "prevClose": 6374,
+      "currency": "JPY",
+      "date": "2026-06-17"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+name: Update stock prices
+
+on:
+  schedule:
+    # 平日 07:00 UTC = 16:00 JST（東証クローズ後）
+    - cron: '0 7 * * 1-5'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-prices
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch prices
+        run: node scripts/fetch-prices.js
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/prices.json
+          if git diff --staged --quiet; then
+            echo "価格に変更なし"
+          else
+            git commit -m "chore: 株価を更新 [skip ci]"
+            git push
+          fi
