@@ -120,6 +120,19 @@
 
   <!-- 銘柄メモ -->
   <section id="stocks" class="view">
+    <div class="card">
+      <div class="card-head"><h2>株価の取得設定（全銘柄を自動取得）</h2></div>
+      <p class="muted" style="font-size:13px;margin:0 0 10px">
+        自分の無料 Cloudflare Worker の URL を設定すると、保有している<b>全銘柄</b>の株価を自動取得します。
+        未設定でも主要約78銘柄は自動で入ります（設定方法は README 参照）。
+      </p>
+      <div class="settings-row">
+        <input type="url" id="proxyInput" placeholder="https://kabu-price.xxxx.workers.dev">
+        <button class="btn primary small" id="proxySave">保存</button>
+        <button class="btn ghost small" id="proxyTest">接続テスト</button>
+      </div>
+      <div id="proxyStatus" class="muted" style="font-size:13px;margin-top:8px"></div>
+    </div>
     <div id="stockList" class="stock-grid"></div>
   </section>
 

@@ -6,13 +6,14 @@ function load() {
     const d = JSON.parse(localStorage.getItem(KEY));
     if (d && Array.isArray(d.trades)) return d;
   } catch (e) {}
-  return { trades: [], memos: {} };
+  return { trades: [], memos: {}, proxy: '' };
 }
 function save() { localStorage.setItem(KEY, JSON.stringify(db)); }
 let db = load();
 
-let autoPrices = {};      // prices.json から読み込む自動株価（終値）
+let autoPrices = {};      // prices.json から読み込む自動株価（終値・主要銘柄）
 let pricesUpdated = null; // 自動株価の最終更新時刻(ISO)
+let livePrices = {};      // Cloudflare Worker から取得した株価（全銘柄対応）
 
 /* ===== ユーティリティ ===== */
 const $ = (s, el = document) => el.querySelector(s);
@@ -68,15 +69,22 @@ function allTickers() {
   return [...set].sort();
 }
 
-// 有効な現在値: 手動入力が最優先、無ければ自動取得(prices.json)を使う
+// 有効な現在値: 手動入力 > Worker(全銘柄) > prices.json(主要銘柄)
 function effPrice(ticker, m) {
   m = m || db.memos[ticker] || {};
   if (m.currentPrice != null && m.currentPrice !== '') {
     return { price: Number(m.currentPrice), source: 'manual', date: null };
   }
+  const live = livePrices[ticker];
+  if (live && live.price != null) return { price: Number(live.price), source: 'auto', date: live.date };
   const a = autoPrices[ticker];
   if (a && a.price != null) return { price: Number(a.price), source: 'auto', date: a.date };
   return { price: null, source: null, date: null };
+}
+
+// 銘柄コード → Yahooシンボル（4桁数字は東証 .T、それ以外はそのまま）
+function toSymbol(code) {
+  return /^\d{4}$/.test(code) ? code + '.T' : code;
 }
 
 /* ===== ダッシュボード ===== */
@@ -349,7 +357,7 @@ $('#importFile').addEventListener('change', e => {
       const d = JSON.parse(reader.result);
       if (!Array.isArray(d.trades)) throw new Error('形式が不正です');
       if (!confirm('現在のデータを上書きして復元しますか？')) return;
-      db = { trades: d.trades, memos: d.memos || {} };
+      db = { trades: d.trades, memos: d.memos || {}, proxy: d.proxy || db.proxy || '' };
       save(); renderAll(); toast('復元しました');
     } catch (err) {
       alert('読み込みに失敗しました: ' + err.message);
@@ -390,7 +398,9 @@ function loadSample() {
   save(); renderAll(); toast('サンプルデータを読み込みました');
 }
 
-/* ===== 株価の自動取得（prices.json を同一オリジンから読み込み） ===== */
+/* ===== 株価の自動取得 ===== */
+// 1) 同一オリジンの prices.json（GitHub Actionsが毎営業日更新・主要銘柄）
+// 2) Workerが設定済みなら全保有銘柄をその場で取得して上書き
 async function loadPrices() {
   try {
     const res = await fetch('prices.json?t=' + Date.now());
@@ -400,15 +410,79 @@ async function loadPrices() {
       pricesUpdated = d.updated || null;
     }
   } catch (e) { /* オフライン等は無視（手動入力は使える） */ }
+  await fetchLive();
   renderAll();
 }
+
+// Cloudflare Worker(プロキシ)経由で保有銘柄の株価をまとめて取得
+async function fetchLive() {
+  const proxy = (db.proxy || '').trim();
+  const tickers = allTickers();
+  if (!proxy || !tickers.length) return;
+  const symMap = {};
+  tickers.forEach(t => { symMap[toSymbol(t)] = t; });
+  try {
+    const url = proxy + (proxy.includes('?') ? '&' : '?') + 's=' + encodeURIComponent(Object.keys(symMap).join(','));
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const d = await res.json();
+    const got = d.prices || {};
+    Object.keys(got).forEach(sym => {
+      const t = symMap[sym];
+      if (t && got[sym] && got[sym].price != null) livePrices[t] = got[sym];
+    });
+    if (d.updated) pricesUpdated = d.updated;
+  } catch (e) {
+    console.warn('live price fetch failed:', e.message);
+  }
+}
+
 const refreshBtn = $('#refreshPrices');
 if (refreshBtn) refreshBtn.addEventListener('click', async () => {
   await loadPrices();
   toast(pricesUpdated ? '株価を更新しました（' + pricesUpdated.slice(0, 10) + '）' : '株価データがまだありません');
 });
 
+/* ===== 株価プロキシ(Cloudflare Worker)の設定 ===== */
+function renderProxyStatus() {
+  const el = $('#proxyStatus');
+  if (!el) return;
+  const p = (db.proxy || '').trim();
+  el.innerHTML = p
+    ? '✓ 設定済み（全銘柄を自動取得）: <span class="muted">' + esc(p) + '</span>'
+    : '未設定（主要約78銘柄は自動／その他は手動入力）';
+  const input = $('#proxyInput');
+  if (input && !input.value) input.value = p;
+}
+const proxySaveBtn = $('#proxySave');
+if (proxySaveBtn) proxySaveBtn.addEventListener('click', async () => {
+  const v = ($('#proxyInput').value || '').trim();
+  db.proxy = v; save(); renderProxyStatus();
+  livePrices = {};
+  if (v) { await fetchLive(); renderAll(); toast('保存しました（全銘柄を自動取得）'); }
+  else { renderAll(); toast('プロキシを解除しました'); }
+});
+const proxyTestBtn = $('#proxyTest');
+if (proxyTestBtn) proxyTestBtn.addEventListener('click', async () => {
+  const v = ($('#proxyInput').value || '').trim();
+  const el = $('#proxyStatus');
+  if (!v) { toast('URLを入力してください'); return; }
+  el.textContent = '接続テスト中…';
+  try {
+    const url = v + (v.includes('?') ? '&' : '?') + 's=7203.T';
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const d = await res.json();
+    const q = d.prices && d.prices['7203.T'];
+    if (q && q.price != null) el.innerHTML = '✓ 接続OK（トヨタ7203 = ¥' + fmt(q.price) + '）';
+    else throw new Error('価格を取得できませんでした');
+  } catch (e) {
+    el.innerHTML = '✗ 失敗: ' + esc(e.message) + '（URL／Workerのデプロイを確認）';
+  }
+});
+
 /* ===== 初期化 ===== */
 $('#f_date').value = today();
+renderProxyStatus();
 renderAll();
 loadPrices();
