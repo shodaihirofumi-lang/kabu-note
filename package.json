@@ -1,0 +1,12 @@
+{
+  "name": "kabu-note",
+  "version": "1.0.0",
+  "description": "株ノート - 売買記録と銘柄メモのアプリ",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

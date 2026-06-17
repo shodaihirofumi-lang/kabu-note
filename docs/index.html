@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>株ノート | 売買記録・銘柄メモ</title>
+<meta name="description" content="株の売買記録・銘柄メモ。売買理由と振り返りを残し、損益・勝率を自動計算。">
+<meta name="theme-color" content="#0f1729">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="株ノート">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="app-header">
+  <div class="container header-inner">
+    <h1 class="logo">📈 株ノート</h1>
+    <nav class="tabs">
+      <button class="tab active" data-tab="dashboard">ダッシュボード</button>
+      <button class="tab" data-tab="trades">取引記録</button>
+      <button class="tab" data-tab="stocks">銘柄メモ</button>
+    </nav>
+    <div class="header-actions">
+      <button id="exportBtn" class="btn ghost" title="JSONでバックアップ">⬇ 保存</button>
+      <button id="csvBtn" class="btn ghost" title="CSVで書き出し">CSV</button>
+      <button id="importBtn" class="btn ghost" title="JSONから復元">⬆ 復元</button>
+      <input type="file" id="importFile" accept="application/json" hidden>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ダッシュボード -->
+  <section id="dashboard" class="view active">
+    <div class="stat-grid" id="statGrid"></div>
+    <div class="card">
+      <div class="card-head"><h2>最近の取引</h2></div>
+      <div id="recentTrades"></div>
+    </div>
+  </section>
+
+  <!-- 取引記録 -->
+  <section id="trades" class="view">
+    <div class="card">
+      <div class="card-head"><h2>取引を記録する</h2></div>
+      <form id="tradeForm" class="trade-form" autocomplete="off">
+        <div class="field">
+          <label for="f_date">取引日</label>
+          <input type="date" id="f_date" required>
+        </div>
+        <div class="field">
+          <label for="f_side">売買</label>
+          <select id="f_side">
+            <option value="buy">買い</option>
+            <option value="sell">売り</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f_ticker">銘柄コード</label>
+          <input type="text" id="f_ticker" placeholder="7203" required>
+        </div>
+        <div class="field">
+          <label for="f_name">銘柄名</label>
+          <input type="text" id="f_name" placeholder="トヨタ自動車">
+        </div>
+        <div class="field">
+          <label for="f_price">単価 (円)</label>
+          <input type="number" id="f_price" step="0.01" min="0" placeholder="2500" required>
+        </div>
+        <div class="field">
+          <label for="f_qty">株数</label>
+          <input type="number" id="f_qty" step="1" min="1" placeholder="100" required>
+        </div>
+        <div class="field">
+          <label for="f_fee">手数料 (円)</label>
+          <input type="number" id="f_fee" step="1" min="0" placeholder="0">
+        </div>
+        <div class="field">
+          <label for="f_tags">タグ (カンマ区切り)</label>
+          <input type="text" id="f_tags" placeholder="高配当, 長期">
+        </div>
+        <div class="field wide">
+          <label for="f_reason">売買理由（なぜ買った／売った）</label>
+          <textarea id="f_reason" rows="2" placeholder="円安メリットと高配当狙い。決算good。"></textarea>
+        </div>
+        <div class="field wide">
+          <label for="f_reflection">振り返り・反省</label>
+          <textarea id="f_reflection" rows="2" placeholder="もう少し待てば良かった など"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn primary">記録する</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card">
+      <div class="card-head filters">
+        <h2>取引一覧</h2>
+        <div class="filter-row">
+          <input type="search" id="searchInput" placeholder="🔍 銘柄・理由で検索">
+          <select id="sideFilter">
+            <option value="all">売買: すべて</option>
+            <option value="buy">買い</option>
+            <option value="sell">売り</option>
+          </select>
+          <select id="tagFilter">
+            <option value="all">タグ: すべて</option>
+          </select>
+        </div>
+      </div>
+      <div id="tradeList"></div>
+    </div>
+  </section>
+
+  <!-- 銘柄メモ -->
+  <section id="stocks" class="view">
+    <div id="stockList" class="stock-grid"></div>
+  </section>
+
+</main>
+
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>

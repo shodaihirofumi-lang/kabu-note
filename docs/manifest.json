@@ -1,0 +1,14 @@
+{
+  "name": "株ノート",
+  "short_name": "株ノート",
+  "description": "株の売買記録・銘柄メモ",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f1729",
+  "theme_color": "#0f1729",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
