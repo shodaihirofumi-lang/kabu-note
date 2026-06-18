@@ -481,12 +481,15 @@ async function lookupAndFill() {
   const info = await lookupTicker(code);
   const nameEl = $('#f_name'), priceEl = $('#f_price');
   if (!info || (info.name == null && info.price == null)) {
-    if (hint) hint.innerHTML = '<span class="muted">' + esc(code) + '：自動取得できませんでした（手入力でOK）</span>';
+    if (hint) hint.innerHTML = '<span style="color:var(--loss)">⚠ ' + esc(code) + '：取得できませんでした（Worker URL を確認してください）</span>';
+    toast('⚠ ' + code + '：取得できませんでした');
     return;
   }
-  if (info.name && !nameEl.value) nameEl.value = info.name;
-  if (info.price != null && !priceEl.value) priceEl.value = info.price;
-  if (hint) hint.innerHTML = '✓ ' + esc(info.name || code) + (info.price != null ? '（現在値 ¥' + fmt(info.price) + '）' : '');
+  if (info.name) nameEl.value = info.name;
+  if (info.price != null) priceEl.value = info.price;
+  const msg = '✓ ' + (info.name || code) + (info.price != null ? '（¥' + fmt(info.price) + '）' : '');
+  if (hint) hint.innerHTML = '<span style="color:var(--profit)">' + esc(msg) + '</span>';
+  toast(msg);
 }
 const tickerInput = $('#f_ticker');
 if (tickerInput) {
@@ -499,6 +502,9 @@ if (tickerInput) {
 }
 const lookupBtn = $('#lookupBtn');
 if (lookupBtn) lookupBtn.addEventListener('click', async () => {
+  const code = ($('#f_ticker').value || '').trim();
+  if (!code) { toast('銘柄コードを入力してください'); return; }
+  toast('🔎 ' + code + ' を検索中...');
   $('#f_name').value = '';
   $('#f_price').value = '';
   await lookupAndFill();
