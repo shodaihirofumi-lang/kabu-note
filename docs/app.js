@@ -484,7 +484,14 @@ async function lookupAndFill() {
   if (hint) hint.innerHTML = '✓ ' + esc(info.name || code) + (info.price != null ? '（現在値 ¥' + fmt(info.price) + '）' : '');
 }
 const tickerInput = $('#f_ticker');
-if (tickerInput) tickerInput.addEventListener('change', lookupAndFill);
+if (tickerInput) {
+  let _tickerTimer;
+  tickerInput.addEventListener('input', () => {
+    clearTimeout(_tickerTimer);
+    _tickerTimer = setTimeout(lookupAndFill, 600);
+  });
+  tickerInput.addEventListener('change', lookupAndFill);
+}
 
 const refreshBtn = $('#refreshPrices');
 if (refreshBtn) refreshBtn.addEventListener('click', async () => {
