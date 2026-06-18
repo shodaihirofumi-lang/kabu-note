@@ -234,7 +234,10 @@ function renderStocks() {
         <label>タグ</label>
         <input type="text" class="tag-input" value="${esc((m.tags || []).join(', '))}" placeholder="高配当, 長期">
       </div>
-      <textarea class="memo-input" rows="3" placeholder="投資メモ（注目ポイント・見通しなど）">${esc(m.memo || '')}</textarea>
+      <div class="memo-wrap">
+        <textarea class="memo-input" rows="3" placeholder="投資メモ（注目ポイント・見通しなど）">${esc(m.memo || '')}</textarea>
+        ${m.memo && m.memo.length > 60 ? '<button class="btn ghost small memo-toggle">▼ 全文表示</button>' : ''}
+      </div>
       <div class="stock-row" style="justify-content:flex-end">
         <button class="btn primary small" data-save="${esc(tk)}">メモを保存</button>
       </div>
@@ -246,6 +249,7 @@ function renderStocks() {
         <div class="chart-toggle">
           <button class="btn small ghost chart-btn" data-ticker="${esc(tk)}" data-interval="1d">📈 日足</button>
           <button class="btn small ghost chart-btn" data-ticker="${esc(tk)}" data-interval="1wk">📊 週足</button>
+          <button class="btn small ghost chart-btn" data-ticker="${esc(tk)}" data-interval="1mo">📅 月足</button>
         </div>
         <div class="chart-container" id="chart-${esc(tk)}"></div>
       </div>
@@ -269,11 +273,19 @@ function renderDashSearch(q) {
     const m = db.memos[tk] || {};
     const ep = effPrice(tk, m);
     const unreal = ep.price != null && s.qty > 0 ? (ep.price - s.avgCost) * s.qty : null;
-    return `<div class="dash-hit" data-goto="${esc(tk)}">
-      <span class="t-ticker">${esc(tk)}</span>
-      <span class="t-name muted">${esc(m.name || '')}</span>
-      <span style="margin-left:auto;font-size:13px">${s.qty > 0 ? fmt(s.qty) + '株保有' : '売却済'}</span>
-      ${unreal != null ? `<span class="profit-badge ${unreal >= 0 ? 'profit' : 'loss'}" style="font-size:13px;font-weight:700">${signed(unreal)}</span>` : ''}
+    return `<div class="dash-hit-row">
+      <div class="dash-hit" data-goto="${esc(tk)}">
+        <span class="t-ticker">${esc(tk)}</span>
+        <span class="t-name muted">${esc(m.name || '')}</span>
+        <span style="margin-left:auto;font-size:13px">${s.qty > 0 ? fmt(s.qty) + '株保有' : '売却済'}</span>
+        ${unreal != null ? `<span class="profit-badge ${unreal >= 0 ? 'profit' : 'loss'}" style="font-size:13px;font-weight:700">${signed(unreal)}</span>` : ''}
+      </div>
+      <div class="dash-hit-charts">
+        <button class="btn small ghost chart-btn" data-ticker="${esc(tk)}" data-interval="1d" data-container="dash-chart-${esc(tk)}">📈 日足</button>
+        <button class="btn small ghost chart-btn" data-ticker="${esc(tk)}" data-interval="1wk" data-container="dash-chart-${esc(tk)}">📊 週足</button>
+        <button class="btn small ghost chart-btn" data-ticker="${esc(tk)}" data-interval="1mo" data-container="dash-chart-${esc(tk)}">📅 月足</button>
+      </div>
+      <div class="chart-container" id="dash-chart-${esc(tk)}"></div>
     </div>`;
   }).join('');
 }
@@ -366,12 +378,24 @@ document.addEventListener('click', e => {
   // チャートボタン
   const cb = e.target.closest('.chart-btn');
   if (cb) {
+    e.stopPropagation();
     const ticker = cb.dataset.ticker, interval = cb.dataset.interval;
-    const container = $('#chart-' + ticker);
+    const containerId = cb.dataset.container || ('chart-' + ticker);
+    const container = document.getElementById(containerId);
     if (!container) return;
-    cb.closest('.chart-toggle').querySelectorAll('.chart-btn').forEach(b => b.classList.remove('active'));
+    const group = cb.closest('.chart-toggle') || cb.closest('.dash-hit-charts');
+    if (group) group.querySelectorAll('.chart-btn').forEach(b => b.classList.remove('active'));
     cb.classList.add('active');
-    loadChart(ticker, interval, container);
+    const trades = db.trades.filter(t => t.ticker === ticker);
+    loadChart(ticker, interval, container, trades);
+    return;
+  }
+  // メモ折りたたみ
+  const mt = e.target.closest('.memo-toggle');
+  if (mt) {
+    const ta = mt.closest('.memo-wrap').querySelector('.memo-input');
+    const expanded = ta.classList.toggle('memo-expanded');
+    mt.textContent = expanded ? '▲ 閉じる' : '▼ 全文表示';
     return;
   }
   // ダッシュボード検索結果クリック → 銘柄メモへ
@@ -529,7 +553,7 @@ async function fetchChart(code, interval) {
   } catch (e) { console.warn('chart fetch failed:', e.message); return null; }
 }
 
-function renderCandlestick(candles) {
+function renderCandlestick(candles, trades) {
   if (!candles || !candles.length) return '<div class="chart-empty">データなし</div>';
   const W = 600, H = 180;
   const pad = { t: 8, r: 6, b: 22, l: 52 };
@@ -542,6 +566,11 @@ function renderCandlestick(candles) {
   const ch = H - pad.t - pad.b;
   const ty = p => pad.t + ch - ((p - minP) / rng) * ch;
   const tx = i => pad.l + (i + 0.5) * cw;
+  // 月足かどうかで日付ラベル形式を変える
+  const avgMs = candles.length > 1
+    ? (+new Date(candles[candles.length - 1].t) - +new Date(candles[0].t)) / (candles.length - 1)
+    : 86400000;
+  const dateLbl = c => avgMs > 20 * 86400000 ? c.t.slice(0, 7) : c.t.slice(5);
   let s = '';
   [0, 0.25, 0.5, 0.75, 1].forEach(f => {
     const price = minP + rng * f, y = ty(price);
@@ -561,15 +590,37 @@ function renderCandlestick(candles) {
   });
   [0, Math.floor(candles.length / 2), candles.length - 1].forEach(i => {
     if (!candles[i]) return;
-    s += `<text x="${tx(i).toFixed(1)}" y="${H - 4}" text-anchor="middle" fill="#93a2c4" font-size="9">${candles[i].t.slice(5)}</text>`;
+    s += `<text x="${tx(i).toFixed(1)}" y="${H - 4}" text-anchor="middle" fill="#93a2c4" font-size="9">${dateLbl(candles[i])}</text>`;
   });
+  // 売買マーカー（▲買い＝緑 ▼売り＝赤）
+  if (trades && trades.length) {
+    trades.forEach(t => {
+      let closestIdx = -1, minDiff = Infinity;
+      candles.forEach((c, i) => {
+        const diff = Math.abs(+new Date(c.t) - +new Date(t.date));
+        if (diff < minDiff) { minDiff = diff; closestIdx = i; }
+      });
+      if (closestIdx < 0 || minDiff > avgMs * 1.5) return;
+      const p = Number(t.price);
+      if (!isFinite(p)) return;
+      const x = tx(closestIdx);
+      const y = Math.max(pad.t + 6, Math.min(pad.t + ch - 6, ty(p)));
+      const isBuy = t.side === 'buy';
+      const col = isBuy ? '#2ecc8f' : '#ff6b7d';
+      const sz = 5;
+      const pts = isBuy
+        ? `${x.toFixed(1)},${(y - sz).toFixed(1)} ${(x - sz).toFixed(1)},${(y + sz).toFixed(1)} ${(x + sz).toFixed(1)},${(y + sz).toFixed(1)}`
+        : `${x.toFixed(1)},${(y + sz).toFixed(1)} ${(x - sz).toFixed(1)},${(y - sz).toFixed(1)} ${(x + sz).toFixed(1)},${(y - sz).toFixed(1)}`;
+      s += `<polygon points="${pts}" fill="${col}" stroke="#0f1729" stroke-width="1.5" opacity="0.95"/>`;
+    });
+  }
   return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="width:100%;height:${H}px;display:block">${s}</svg>`;
 }
 
-async function loadChart(code, interval, container) {
+async function loadChart(code, interval, container, trades) {
   container.innerHTML = '<div class="chart-loading">読み込み中…</div>';
   const candles = await fetchChart(code, interval);
-  container.innerHTML = candles ? renderCandlestick(candles) : '<div class="chart-empty">Worker URL が未設定か取得に失敗しました</div>';
+  container.innerHTML = candles ? renderCandlestick(candles, trades || []) : '<div class="chart-empty">Worker URL が未設定か取得に失敗しました</div>';
 }
 
 async function lookupTicker(code) {

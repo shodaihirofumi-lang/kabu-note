@@ -22,7 +22,7 @@ export default {
     const chartSym = (url.searchParams.get('chart') || '').trim();
     if (chartSym) {
       const interval = url.searchParams.get('interval') || '1d';
-      const range = interval === '1wk' ? '1y' : '3mo';
+      const range = interval === '1mo' ? '2y' : interval === '1wk' ? '1y' : '3mo';
       try {
         const candles = await fetchCandles(chartSym, interval, range);
         return json({ updated: new Date().toISOString(), symbol: chartSym, interval, candles }, 200, {

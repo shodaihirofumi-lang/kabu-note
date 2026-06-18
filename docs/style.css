@@ -177,14 +177,22 @@ textarea { resize: vertical; }
 .chart-loading, .chart-empty { font-size: 12px; color: var(--muted); padding: 20px; text-align: center; }
 
 /* Dashboard search */
+.dash-hit-row { border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-bottom: 2px; }
+.dash-hit-row:last-child { border-bottom: none; }
 .dash-hit {
   display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-  padding: 8px 4px; border-bottom: 1px solid var(--border); cursor: pointer;
+  padding: 8px 4px 4px; cursor: pointer;
   border-radius: 6px; transition: background .12s;
 }
 .dash-hit:hover { background: var(--accent-soft); }
-.dash-hit:last-child { border-bottom: none; }
+.dash-hit-charts { display: flex; gap: 6px; padding: 2px 4px 4px; }
 .profit-badge { padding: 2px 8px; border-radius: 999px; }
+
+/* Memo truncation */
+.memo-wrap { position: relative; }
+.memo-input { overflow: hidden; resize: none; }
+.memo-input.memo-expanded { overflow-y: auto; max-height: 300px; resize: vertical; }
+.memo-toggle { margin-top: 4px; width: 100%; font-size: 11px; color: var(--muted); text-align: center; }
 
 @media (max-width: 640px) {
   .tabs { order: 3; width: 100%; }
