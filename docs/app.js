@@ -130,6 +130,7 @@ function renderDashboard() {
   $('#recentTrades').innerHTML = recent.length
     ? recent.map(tradeItemHTML).join('')
     : emptyHTML('まだ取引がありません', true);
+  renderDashSearch();
 }
 
 /* ===== 取引一覧 ===== */
@@ -241,6 +242,38 @@ function renderStocks() {
         <h4>取引履歴 (${db.trades.filter(t => t.ticker === tk).length}件)</h4>
         ${hist || '<div class="muted" style="font-size:13px">履歴なし</div>'}
       </div>
+      <div class="chart-section">
+        <div class="chart-toggle">
+          <button class="btn small ghost chart-btn" data-ticker="${esc(tk)}" data-interval="1d">📈 日足</button>
+          <button class="btn small ghost chart-btn" data-ticker="${esc(tk)}" data-interval="1wk">📊 週足</button>
+        </div>
+        <div class="chart-container" id="chart-${esc(tk)}"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ===== ダッシュボード検索 ===== */
+function renderDashSearch(q) {
+  const el = $('#dashSearchResult');
+  if (!el) return;
+  q = (q || ($('#dashSearch') && $('#dashSearch').value) || '').toLowerCase().trim();
+  if (!q) { el.innerHTML = ''; return; }
+  const hits = allTickers().filter(tk => {
+    const m = db.memos[tk] || {};
+    return tk.toLowerCase().includes(q) || (m.name || '').toLowerCase().includes(q);
+  });
+  if (!hits.length) { el.innerHTML = '<div class="muted" style="padding:8px 0;font-size:13px">該当なし</div>'; return; }
+  el.innerHTML = hits.map(tk => {
+    const s = tickerStats(tk);
+    const m = db.memos[tk] || {};
+    const ep = effPrice(tk, m);
+    const unreal = ep.price != null && s.qty > 0 ? (ep.price - s.avgCost) * s.qty : null;
+    return `<div class="dash-hit" data-goto="${esc(tk)}">
+      <span class="t-ticker">${esc(tk)}</span>
+      <span class="t-name muted">${esc(m.name || '')}</span>
+      <span style="margin-left:auto;font-size:13px">${s.qty > 0 ? fmt(s.qty) + '株保有' : '売却済'}</span>
+      ${unreal != null ? `<span class="profit-badge ${unreal >= 0 ? 'profit' : 'loss'}" style="font-size:13px;font-weight:700">${signed(unreal)}</span>` : ''}
     </div>`;
   }).join('');
 }
@@ -330,6 +363,31 @@ document.addEventListener('click', e => {
     return;
   }
   if (e.target.id === 'sampleBtn') loadSample();
+  // チャートボタン
+  const cb = e.target.closest('.chart-btn');
+  if (cb) {
+    const ticker = cb.dataset.ticker, interval = cb.dataset.interval;
+    const container = $('#chart-' + ticker);
+    if (!container) return;
+    cb.closest('.chart-toggle').querySelectorAll('.chart-btn').forEach(b => b.classList.remove('active'));
+    cb.classList.add('active');
+    loadChart(ticker, interval, container);
+    return;
+  }
+  // ダッシュボード検索結果クリック → 銘柄メモへ
+  const hit = e.target.closest('.dash-hit');
+  if (hit) {
+    const tk = hit.dataset.goto;
+    $$('.tab').forEach(t => t.classList.remove('active'));
+    $$('.view').forEach(v => v.classList.remove('active'));
+    $('[data-tab="stocks"]').classList.add('active');
+    $('#stocks').classList.add('active');
+    setTimeout(() => {
+      const card = document.querySelector(`.stock-card[data-ticker="${tk}"]`);
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+    return;
+  }
 });
 
 // バックアップ（JSON書き出し）
@@ -457,6 +515,63 @@ async function fetchOneLive(code) {
   return null;
 }
 
+/* ===== チャートデータ取得 ===== */
+async function fetchChart(code, interval) {
+  const proxy = (db.proxy || '').trim();
+  if (!proxy) return null;
+  try {
+    const sym = toSymbol(code);
+    const url = proxy + (proxy.includes('?') ? '&' : '?') + 'chart=' + encodeURIComponent(sym) + '&interval=' + interval;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const d = await res.json();
+    return d.candles || null;
+  } catch (e) { console.warn('chart fetch failed:', e.message); return null; }
+}
+
+function renderCandlestick(candles) {
+  if (!candles || !candles.length) return '<div class="chart-empty">データなし</div>';
+  const W = 600, H = 180;
+  const pad = { t: 8, r: 6, b: 22, l: 52 };
+  const cw = (W - pad.l - pad.r) / candles.length;
+  const bw = Math.max(1, cw - 1);
+  const hs = candles.map(c => c.h).filter(x => x != null);
+  const ls = candles.map(c => c.l).filter(x => x != null);
+  const maxP = Math.max(...hs), minP = Math.min(...ls);
+  const rng = maxP - minP || 1;
+  const ch = H - pad.t - pad.b;
+  const ty = p => pad.t + ch - ((p - minP) / rng) * ch;
+  const tx = i => pad.l + (i + 0.5) * cw;
+  let s = '';
+  [0, 0.25, 0.5, 0.75, 1].forEach(f => {
+    const price = minP + rng * f, y = ty(price);
+    const lbl = price >= 1000 ? Math.round(price).toLocaleString() : price.toFixed(1);
+    s += `<line x1="${pad.l}" y1="${y.toFixed(1)}" x2="${W - pad.r}" y2="${y.toFixed(1)}" stroke="#2c3c63" stroke-width="0.5"/>`;
+    s += `<text x="${pad.l - 3}" y="${(y + 4).toFixed(1)}" text-anchor="end" fill="#93a2c4" font-size="9">${lbl}</text>`;
+  });
+  candles.forEach((c, i) => {
+    if (c.o == null || c.c == null) return;
+    const bull = c.c >= c.o;
+    const col = bull ? '#2ecc8f' : '#ff6b7d';
+    const x = tx(i), y1 = ty(Math.max(c.o, c.c)), y2 = ty(Math.min(c.o, c.c));
+    const bh = Math.max(1, y2 - y1);
+    if (c.h != null && c.l != null)
+      s += `<line x1="${x.toFixed(1)}" y1="${ty(c.h).toFixed(1)}" x2="${x.toFixed(1)}" y2="${ty(c.l).toFixed(1)}" stroke="${col}" stroke-width="1"/>`;
+    s += `<rect x="${(x - bw / 2).toFixed(1)}" y="${y1.toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" fill="${col}"/>`;
+  });
+  [0, Math.floor(candles.length / 2), candles.length - 1].forEach(i => {
+    if (!candles[i]) return;
+    s += `<text x="${tx(i).toFixed(1)}" y="${H - 4}" text-anchor="middle" fill="#93a2c4" font-size="9">${candles[i].t.slice(5)}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="width:100%;height:${H}px;display:block">${s}</svg>`;
+}
+
+async function loadChart(code, interval, container) {
+  container.innerHTML = '<div class="chart-loading">読み込み中…</div>';
+  const candles = await fetchChart(code, interval);
+  container.innerHTML = candles ? renderCandlestick(candles) : '<div class="chart-empty">Worker URL が未設定か取得に失敗しました</div>';
+}
+
 async function lookupTicker(code) {
   code = code.trim();
   if (!code) return null;
@@ -552,6 +667,11 @@ if (proxyTestBtn) proxyTestBtn.addEventListener('click', async () => {
   } catch (e) {
     el.innerHTML = '✗ 失敗: ' + esc(e.message) + '（URL／Workerのデプロイを確認）';
   }
+});
+
+/* ===== ダッシュボード検索 イベント ===== */
+document.addEventListener('input', e => {
+  if (e.target.id === 'dashSearch') renderDashSearch(e.target.value);
 });
 
 /* ===== 初期化 ===== */

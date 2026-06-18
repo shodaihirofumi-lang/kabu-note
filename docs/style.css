@@ -169,6 +169,23 @@ textarea { resize: vertical; }
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+/* Chart */
+.chart-section { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 10px; }
+.chart-toggle { display: flex; gap: 6px; margin-bottom: 8px; }
+.chart-toggle .btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.chart-container { background: var(--bg); border-radius: 8px; overflow: hidden; min-height: 20px; }
+.chart-loading, .chart-empty { font-size: 12px; color: var(--muted); padding: 20px; text-align: center; }
+
+/* Dashboard search */
+.dash-hit {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 8px 4px; border-bottom: 1px solid var(--border); cursor: pointer;
+  border-radius: 6px; transition: background .12s;
+}
+.dash-hit:hover { background: var(--accent-soft); }
+.dash-hit:last-child { border-bottom: none; }
+.profit-badge { padding: 2px 8px; border-radius: 999px; }
+
 @media (max-width: 640px) {
   .tabs { order: 3; width: 100%; }
   .t-date { margin-left: 0; width: 100%; }
