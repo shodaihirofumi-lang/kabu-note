@@ -63,11 +63,14 @@
         </div>
         <div class="field">
           <label for="f_ticker">銘柄コード</label>
-          <input type="text" id="f_ticker" placeholder="7203" required>
+          <div style="display:flex;gap:6px">
+            <input type="text" id="f_ticker" placeholder="7203" required style="flex:1">
+            <button type="button" id="lookupBtn" class="btn primary" style="white-space:nowrap">🔍 検索</button>
+          </div>
         </div>
         <div class="field">
           <label for="f_name">銘柄名</label>
-          <input type="text" id="f_name" placeholder="自動入力（コード入力後）">
+          <input type="text" id="f_name" placeholder="コード入力後「検索」を押す">
         </div>
         <div id="tickerHint" class="ticker-hint"></div>
         <div class="field">

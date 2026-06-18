@@ -497,6 +497,8 @@ if (tickerInput) {
   });
   tickerInput.addEventListener('change', lookupAndFill);
 }
+const lookupBtn = $('#lookupBtn');
+if (lookupBtn) lookupBtn.addEventListener('click', lookupAndFill);
 
 const refreshBtn = $('#refreshPrices');
 if (refreshBtn) refreshBtn.addEventListener('click', async () => {
