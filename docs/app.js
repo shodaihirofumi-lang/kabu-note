@@ -14,6 +14,7 @@ let db = load();
 let autoPrices = {};      // prices.json から読み込む自動株価（終値・主要銘柄）
 let pricesUpdated = null; // 自動株価の最終更新時刻(ISO)
 let livePrices = {};      // Cloudflare Worker から取得した株価（全銘柄対応）
+let _autoPricesReady = null; // prices.json 読み込み完了を待つ Promise
 
 /* ===== ユーティリティ ===== */
 const $ = (s, el = document) => el.querySelector(s);
@@ -402,14 +403,17 @@ function loadSample() {
 // 1) 同一オリジンの prices.json（GitHub Actionsが毎営業日更新・主要銘柄）
 // 2) Workerが設定済みなら全保有銘柄をその場で取得して上書き
 async function loadPrices() {
-  try {
-    const res = await fetch('prices.json?t=' + Date.now());
-    if (res.ok) {
-      const d = await res.json();
-      autoPrices = d.prices || {};
-      pricesUpdated = d.updated || null;
-    }
-  } catch (e) { /* オフライン等は無視（手動入力は使える） */ }
+  _autoPricesReady = (async () => {
+    try {
+      const res = await fetch('prices.json?t=' + Date.now());
+      if (res.ok) {
+        const d = await res.json();
+        autoPrices = d.prices || {};
+        pricesUpdated = d.updated || null;
+      }
+    } catch (e) { /* オフライン等は無視（手動入力は使える） */ }
+  })();
+  await _autoPricesReady;
   await fetchLive();
   renderAll();
 }
@@ -456,6 +460,7 @@ async function fetchOneLive(code) {
 async function lookupTicker(code) {
   code = code.trim();
   if (!code) return null;
+  if (_autoPricesReady) await _autoPricesReady;
   const m = db.memos[code];
   let name = m && m.name ? m.name : null;
   let price = null;
