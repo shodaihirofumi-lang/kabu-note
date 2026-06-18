@@ -498,7 +498,11 @@ if (tickerInput) {
   tickerInput.addEventListener('change', lookupAndFill);
 }
 const lookupBtn = $('#lookupBtn');
-if (lookupBtn) lookupBtn.addEventListener('click', lookupAndFill);
+if (lookupBtn) lookupBtn.addEventListener('click', async () => {
+  $('#f_name').value = '';
+  $('#f_price').value = '';
+  await lookupAndFill();
+});
 
 const refreshBtn = $('#refreshPrices');
 if (refreshBtn) refreshBtn.addEventListener('click', async () => {
