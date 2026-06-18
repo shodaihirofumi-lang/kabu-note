@@ -147,6 +147,21 @@
 </main>
 
 <div id="toast" class="toast"></div>
-<script src="app.js?v=7"></script>
+
+<!-- メモ編集モーダル -->
+<div id="memoModal" class="modal-overlay" hidden>
+  <div class="modal-box">
+    <div class="modal-head">
+      <span id="memoModalTitle">銘柄メモ</span>
+      <button id="memoModalClose" class="btn ghost small">✕</button>
+    </div>
+    <textarea id="memoModalInput" rows="7" placeholder="投資メモ（注目ポイント・見通しなど）"></textarea>
+    <div class="modal-actions">
+      <button id="memoModalSave" class="btn primary">保存</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js?v=8"></script>
 </body>
 </html>

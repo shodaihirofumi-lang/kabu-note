@@ -156,6 +156,7 @@ function tradeItemHTML(t) {
       ${tags ? `<div class="chips">${tags}</div>` : ''}
       ${notes.length ? `<div class="notes">${notes.join('')}</div>` : ''}
       <div class="trade-actions">
+        <button class="btn ghost small" data-memo="${esc(t.ticker)}">📝 メモ</button>
         <button class="btn ghost small danger" data-del="${t.id}">削除</button>
       </div>
     </div>`;
@@ -279,6 +280,7 @@ function renderDashSearch(q) {
         <span class="t-name muted">${esc(m.name || '')}</span>
         <span style="margin-left:auto;font-size:13px">${s.qty > 0 ? fmt(s.qty) + '株保有' : '売却済'}</span>
         ${unreal != null ? `<span class="profit-badge ${unreal >= 0 ? 'profit' : 'loss'}" style="font-size:13px;font-weight:700">${signed(unreal)}</span>` : ''}
+        <button class="btn ghost small" data-memo="${esc(tk)}" style="margin-left:4px">📝</button>
       </div>
       <div class="dash-hit-charts">
         <button class="btn small ghost chart-btn" data-ticker="${esc(tk)}" data-interval="1d" data-container="dash-chart-${esc(tk)}">📈 日足</button>
@@ -723,6 +725,33 @@ if (proxyTestBtn) proxyTestBtn.addEventListener('click', async () => {
 /* ===== ダッシュボード検索 イベント ===== */
 document.addEventListener('input', e => {
   if (e.target.id === 'dashSearch') renderDashSearch(e.target.value);
+});
+
+/* ===== メモモーダル ===== */
+function openMemoModal(ticker) {
+  const m = db.memos[ticker] || {};
+  $('#memoModalTitle').textContent = ticker + (m.name ? '  ' + m.name : '') + ' のメモ';
+  $('#memoModalInput').value = m.memo || '';
+  $('#memoModalInput').dataset.ticker = ticker;
+  $('#memoModal').hidden = false;
+  setTimeout(() => $('#memoModalInput').focus(), 50);
+}
+$('#memoModalClose').addEventListener('click', () => { $('#memoModal').hidden = true; });
+$('#memoModal').addEventListener('click', e => { if (e.target === $('#memoModal')) $('#memoModal').hidden = true; });
+$('#memoModalSave').addEventListener('click', () => {
+  const ticker = $('#memoModalInput').dataset.ticker;
+  if (!ticker) return;
+  db.memos[ticker] = db.memos[ticker] || { name: '' };
+  db.memos[ticker].memo = $('#memoModalInput').value.trim();
+  db.memos[ticker].updatedAt = Date.now();
+  save();
+  $('#memoModal').hidden = true;
+  toast('メモを保存しました');
+  renderAll();
+});
+document.addEventListener('click', e => {
+  const mb = e.target.closest('[data-memo]');
+  if (mb) { e.stopPropagation(); openMemoModal(mb.dataset.memo); }
 });
 
 /* ===== 初期化 ===== */

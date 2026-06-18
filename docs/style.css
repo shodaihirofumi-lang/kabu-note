@@ -194,6 +194,23 @@ textarea { resize: vertical; }
 .memo-input.memo-expanded { overflow-y: auto; max-height: 300px; resize: vertical; }
 .memo-toggle { margin-top: 4px; width: 100%; font-size: 11px; color: var(--muted); text-align: center; }
 
+/* Modal */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.6);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100; backdrop-filter: blur(4px);
+}
+.modal-overlay[hidden] { display: none; }
+.modal-box {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 20px; width: min(480px, 92vw);
+  display: flex; flex-direction: column; gap: 12px;
+}
+.modal-head { display: flex; justify-content: space-between; align-items: center; }
+.modal-head span { font-weight: 700; font-size: 15px; }
+.modal-actions { display: flex; justify-content: flex-end; }
+
 @media (max-width: 640px) {
   .tabs { order: 3; width: 100%; }
   .t-date { margin-left: 0; width: 100%; }
