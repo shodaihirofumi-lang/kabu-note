@@ -56,6 +56,7 @@ async function fetchQuote(sym) {
     price: m.regularMarketPrice,
     prevClose: m.chartPreviousClose ?? m.previousClose ?? null,
     currency: m.currency ?? null,
+    name: m.shortName || m.longName || null,
     date: m.regularMarketTime
       ? new Date(m.regularMarketTime * 1000).toISOString().slice(0, 10)
       : null,

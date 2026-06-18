@@ -437,6 +437,55 @@ async function fetchLive() {
   }
 }
 
+/* ===== 取引フォーム: 銘柄コード入力 → 銘柄名・現在値を自動入力 ===== */
+async function fetchOneLive(code) {
+  const proxy = (db.proxy || '').trim();
+  if (!proxy) return null;
+  try {
+    const sym = toSymbol(code);
+    const url = proxy + (proxy.includes('?') ? '&' : '?') + 's=' + encodeURIComponent(sym);
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const d = await res.json();
+    const q = d.prices && d.prices[sym];
+    if (q && q.price != null) { livePrices[code] = q; return q; }
+  } catch (e) { console.warn('lookup failed:', e.message); }
+  return null;
+}
+
+async function lookupTicker(code) {
+  code = code.trim();
+  if (!code) return null;
+  const m = db.memos[code];
+  let name = m && m.name ? m.name : null;
+  let price = null;
+  const cached = livePrices[code] || autoPrices[code];
+  if (cached) { name = name || cached.name || null; if (cached.price != null) price = cached.price; }
+  if ((db.proxy || '').trim() && (price == null || !name)) {
+    const live = await fetchOneLive(code);
+    if (live) { if (live.price != null) price = live.price; name = name || live.name || null; }
+  }
+  return { name, price };
+}
+
+async function lookupAndFill() {
+  const code = ($('#f_ticker').value || '').trim();
+  const hint = $('#tickerHint');
+  if (!code) { if (hint) hint.textContent = ''; return; }
+  if (hint) hint.textContent = '🔎 ' + code + ' を照会中…';
+  const info = await lookupTicker(code);
+  const nameEl = $('#f_name'), priceEl = $('#f_price');
+  if (!info || (info.name == null && info.price == null)) {
+    if (hint) hint.innerHTML = '<span class="muted">' + esc(code) + '：自動取得できませんでした（手入力でOK）</span>';
+    return;
+  }
+  if (info.name && !nameEl.value) nameEl.value = info.name;
+  if (info.price != null && !priceEl.value) priceEl.value = info.price;
+  if (hint) hint.innerHTML = '✓ ' + esc(info.name || code) + (info.price != null ? '（現在値 ¥' + fmt(info.price) + '）' : '');
+}
+const tickerInput = $('#f_ticker');
+if (tickerInput) tickerInput.addEventListener('change', lookupAndFill);
+
 const refreshBtn = $('#refreshPrices');
 if (refreshBtn) refreshBtn.addEventListener('click', async () => {
   await loadPrices();

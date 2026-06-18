@@ -28,6 +28,7 @@ async function fetchOne(code) {
     price: meta.regularMarketPrice,
     prevClose: meta.chartPreviousClose ?? meta.previousClose ?? null,
     currency: meta.currency ?? null,
+    name: meta.shortName || meta.longName || null,
     date: meta.regularMarketTime
       ? new Date(meta.regularMarketTime * 1000).toISOString().slice(0, 10)
       : null,
