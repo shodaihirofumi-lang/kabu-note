@@ -1,546 +1,546 @@
 {
-  "updated": "2026-06-19T11:17:33.524Z",
+  "updated": "2026-06-22T12:46:18.619Z",
   "source": "Yahoo Finance（終値/遅延・参考値）",
   "count": 77,
   "prices": {
     "2413": {
-      "price": 1637.5,
-      "prevClose": 1602,
+      "price": 1706,
+      "prevClose": 1586.5,
       "currency": "JPY",
       "name": "M3 INC",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "2502": {
-      "price": 1519,
-      "prevClose": 1510,
+      "price": 1510,
+      "prevClose": 1503.5,
       "currency": "JPY",
       "name": "ASAHI GROUP HLDGS",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "2503": {
-      "price": 2772.5,
-      "prevClose": 2682,
+      "price": 2811,
+      "prevClose": 2720,
       "currency": "JPY",
       "name": "KIRIN HOLDINGS COMPANY LIMITED",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "2802": {
-      "price": 5790,
-      "prevClose": 5060,
+      "price": 6160,
+      "prevClose": 5146,
       "currency": "JPY",
       "name": "AJINOMOTO CO INC",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "2914": {
-      "price": 6075,
-      "prevClose": 6070,
+      "price": 5968,
+      "prevClose": 6099,
       "currency": "JPY",
       "name": "JAPAN TOBACCO INC",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "3382": {
-      "price": 1934,
-      "prevClose": 1939.5,
+      "price": 1876.5,
+      "prevClose": 1912.5,
       "currency": "JPY",
       "name": "SEVEN & I HOLDINGS CO LTD",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "3402": {
-      "price": 1159,
-      "prevClose": 1197.5,
+      "price": 1171.5,
+      "prevClose": 1177,
       "currency": "JPY",
       "name": "TORAY INDUSTRIES INC",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "3407": {
-      "price": 1792.5,
-      "prevClose": 1764.5,
+      "price": 1823.5,
+      "prevClose": 1761.5,
       "currency": "JPY",
       "name": "ASAHI KASEI CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "4063": {
-      "price": 7310,
-      "prevClose": 7564,
+      "price": 7307,
+      "prevClose": 7454,
       "currency": "JPY",
       "name": "SHIN-ETSU CHEMICAL CO",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "4307": {
-      "price": 4358,
-      "prevClose": 4565,
+      "price": 4256,
+      "prevClose": 4505,
       "currency": "JPY",
       "name": "NOMURA RESEARCH INSTITUTE",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "4385": {
-      "price": 3870,
-      "prevClose": 3720,
+      "price": 3965,
+      "prevClose": 3768,
       "currency": "JPY",
       "name": "MERCARI INC",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "4452": {
-      "price": 6201,
-      "prevClose": 6055,
+      "price": 6069,
+      "prevClose": 6087,
       "currency": "JPY",
       "name": "KAO CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "4502": {
-      "price": 4934,
-      "prevClose": 5088,
+      "price": 4975,
+      "prevClose": 5020,
       "currency": "JPY",
       "name": "TAKEDA PHARMACEUTICAL CO LTD",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "4519": {
-      "price": 7550,
-      "prevClose": 7428,
+      "price": 7522,
+      "prevClose": 7523,
       "currency": "JPY",
       "name": "CHUGAI PHARMACEUTICAL CO",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "4543": {
-      "price": 2224.5,
-      "prevClose": 2237,
+      "price": 2244.5,
+      "prevClose": 2220,
       "currency": "JPY",
       "name": "TERUMO CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "4568": {
-      "price": 2541.5,
-      "prevClose": 2546,
+      "price": 2534.5,
+      "prevClose": 2519.5,
       "currency": "JPY",
       "name": "DAIICHI SANKYO COMPANY LIMITED",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "4578": {
-      "price": 10515,
-      "prevClose": 10230,
+      "price": 10610,
+      "prevClose": 10360,
       "currency": "JPY",
       "name": "OTSUKA HLDGS CO LTD",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "4661": {
-      "price": 2336.5,
-      "prevClose": 2263,
+      "price": 2322.5,
+      "prevClose": 2276,
       "currency": "JPY",
       "name": "ORIENTAL LAND CO",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "4901": {
-      "price": 3383,
-      "prevClose": 3439,
+      "price": 3364,
+      "prevClose": 3379,
       "currency": "JPY",
       "name": "FUJIFILM HOLDINGS CORPORATION",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "5108": {
-      "price": 3426,
-      "prevClose": 3513,
+      "price": 3435,
+      "prevClose": 3478,
       "currency": "JPY",
       "name": "BRIDGESTONE CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "5401": {
-      "price": 559.8,
-      "prevClose": 574.2,
+      "price": 562.3,
+      "prevClose": 566,
       "currency": "JPY",
       "name": "NIPPON STEEL CORPORATION",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "5713": {
-      "price": 8607,
-      "prevClose": 9200,
+      "price": 8834,
+      "prevClose": 8863,
       "currency": "JPY",
       "name": "SUMITOMO METAL MINING CO",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6098": {
-      "price": 10865,
-      "prevClose": 10720,
+      "price": 11050,
+      "prevClose": 10750,
       "currency": "JPY",
       "name": "RECRUIT HOLDINGS CO LTD",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6146": {
-      "price": 84900,
-      "prevClose": 85250,
+      "price": 88480,
+      "prevClose": 81550,
       "currency": "JPY",
       "name": "DISCO CORPORATION",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6273": {
-      "price": 72840,
-      "prevClose": 70130,
+      "price": 74240,
+      "prevClose": 69030,
       "currency": "JPY",
       "name": "SMC CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6301": {
-      "price": 6492,
-      "prevClose": 6817,
+      "price": 6551,
+      "prevClose": 6650,
       "currency": "JPY",
       "name": "KOMATSU",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6326": {
-      "price": 2846.5,
-      "prevClose": 2843,
+      "price": 2838,
+      "prevClose": 2869.5,
       "currency": "JPY",
       "name": "KUBOTA CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6367": {
-      "price": 23890,
-      "prevClose": 23360,
+      "price": 23905,
+      "prevClose": 23590,
       "currency": "JPY",
       "name": "DAIKIN INDUSTRIES",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6501": {
-      "price": 4764,
-      "prevClose": 4737,
+      "price": 4864,
+      "prevClose": 4747,
       "currency": "JPY",
       "name": "HITACHI",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6503": {
-      "price": 6051,
-      "prevClose": 5858,
+      "price": 6183,
+      "prevClose": 5872,
       "currency": "JPY",
       "name": "MITSUBISHI ELECTRIC CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6594": {
-      "price": 2695,
-      "prevClose": 2728,
+      "price": 2759,
+      "prevClose": 2737,
       "currency": "JPY",
       "name": "NIDEC CORPORATION",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6701": {
-      "price": 3756,
-      "prevClose": 3847,
+      "price": 3752,
+      "prevClose": 3849,
       "currency": "JPY",
       "name": "NEC CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6702": {
-      "price": 3211,
-      "prevClose": 3260,
+      "price": 3188,
+      "prevClose": 3276,
       "currency": "JPY",
       "name": "FUJITSU",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6752": {
-      "price": 4419,
-      "prevClose": 4010,
+      "price": 4393,
+      "prevClose": 4079,
       "currency": "JPY",
       "name": "PANASONIC HOLDINGS CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6758": {
-      "price": 3140,
-      "prevClose": 3320,
+      "price": 3183,
+      "prevClose": 3275,
       "currency": "JPY",
       "name": "SONY GROUP CORPORATION",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6861": {
-      "price": 77700,
-      "prevClose": 75650,
+      "price": 77990,
+      "prevClose": 75500,
       "currency": "JPY",
       "name": "KEYENCE CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6902": {
-      "price": 1900.5,
-      "prevClose": 1906.5,
+      "price": 1892,
+      "prevClose": 1893.5,
       "currency": "JPY",
       "name": "DENSO CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6920": {
-      "price": 55100,
-      "prevClose": 48300,
+      "price": 57490,
+      "prevClose": 46570,
       "currency": "JPY",
       "name": "LASERTEC CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6954": {
-      "price": 7473,
-      "prevClose": 7344,
+      "price": 7960,
+      "prevClose": 7400,
       "currency": "JPY",
       "name": "FANUC CORPORATION",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "6981": {
-      "price": 11750,
-      "prevClose": 10060,
+      "price": 12250,
+      "prevClose": 10530,
       "currency": "JPY",
       "name": "MURATA MANUFACTURING CO",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "7011": {
-      "price": 3917,
-      "prevClose": 3659,
+      "price": 3909,
+      "prevClose": 3810,
       "currency": "JPY",
       "name": "MITSUBISHI HEAVY INDUSTRIES",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "7012": {
-      "price": 3191,
-      "prevClose": 2905.5,
+      "price": 3243,
+      "prevClose": 3031,
       "currency": "JPY",
       "name": "KAWASAKI HEAVY INDUSTRIES",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "7201": {
-      "price": 327.8,
-      "prevClose": 356.9,
+      "price": 317.3,
+      "prevClose": 352.9,
       "currency": "JPY",
       "name": "NISSAN MOTOR CO",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "7203": {
-      "price": 2776.5,
-      "prevClose": 2902.5,
+      "price": 2741.5,
+      "prevClose": 2847.5,
       "currency": "JPY",
       "name": "TOYOTA MOTOR CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "7259": {
-      "price": 2299,
-      "prevClose": 2373,
+      "price": 2243,
+      "prevClose": 2351.5,
       "currency": "JPY",
       "name": "AISIN CORPORATION",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "7267": {
-      "price": 1412.5,
-      "prevClose": 1458,
+      "price": 1413.5,
+      "prevClose": 1439,
       "currency": "JPY",
       "name": "HONDA MOTOR CO",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "7269": {
-      "price": 1916.5,
-      "prevClose": 1933,
+      "price": 1911,
+      "prevClose": 1900,
       "currency": "JPY",
       "name": "SUZUKI MOTOR CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "7270": {
-      "price": 2440.5,
-      "prevClose": 2568,
+      "price": 2427.5,
+      "prevClose": 2564.5,
       "currency": "JPY",
       "name": "SUBARU CORPORATION",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "7733": {
-      "price": 1646,
-      "prevClose": 1686,
+      "price": 1662.5,
+      "prevClose": 1662,
       "currency": "JPY",
       "name": "OLYMPUS CORPORATION",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "7741": {
-      "price": 27245,
-      "prevClose": 26630,
+      "price": 26975,
+      "prevClose": 27065,
       "currency": "JPY",
       "name": "HOYA CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "7751": {
-      "price": 4310,
-      "prevClose": 4327,
+      "price": 4280,
+      "prevClose": 4306,
       "currency": "JPY",
       "name": "CANON INC",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "7832": {
-      "price": 3591,
-      "prevClose": 3594,
+      "price": 3644,
+      "prevClose": 3589,
       "currency": "JPY",
       "name": "BANDAI NAMCO HOLDINGS INC",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "7974": {
-      "price": 7076,
-      "prevClose": 7110,
+      "price": 7000,
+      "prevClose": 7218,
       "currency": "JPY",
       "name": "NINTENDO CO LTD",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "8001": {
       "price": 1847.5,
-      "prevClose": 1907,
+      "prevClose": 1859.5,
       "currency": "JPY",
       "name": "ITOCHU CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "8002": {
-      "price": 4895,
-      "prevClose": 5042,
+      "price": 4913,
+      "prevClose": 4921,
       "currency": "JPY",
       "name": "MARUBENI CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "8031": {
-      "price": 4716,
-      "prevClose": 4838,
+      "price": 4739,
+      "prevClose": 4703,
       "currency": "JPY",
       "name": "MITSUI & CO",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "8035": {
-      "price": 75360,
-      "prevClose": 72760,
+      "price": 77800,
+      "prevClose": 70860,
       "currency": "JPY",
       "name": "TOKYO ELECTRON",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "8053": {
-      "price": 6435,
-      "prevClose": 6567,
+      "price": 6489,
+      "prevClose": 6529,
       "currency": "JPY",
       "name": "SUMITOMO CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "8058": {
-      "price": 4540,
-      "prevClose": 4728,
+      "price": 4609,
+      "prevClose": 4595,
       "currency": "JPY",
       "name": "MITSUBISHI CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "8306": {
-      "price": 3278,
-      "prevClose": 3242,
+      "price": 3333,
+      "prevClose": 3228,
       "currency": "JPY",
       "name": "MITSUBISHI UFJ FINANCIAL GROUP ",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "8316": {
-      "price": 6482,
-      "prevClose": 6519,
+      "price": 6645,
+      "prevClose": 6409,
       "currency": "JPY",
       "name": "SUMITOMO MITSUI FINANCIAL GROUP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "8411": {
-      "price": 7884,
-      "prevClose": 7793,
+      "price": 8043,
+      "prevClose": 7757,
       "currency": "JPY",
       "name": "MIZUHO FINANCIAL GROUP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "8591": {
-      "price": 6325,
-      "prevClose": 6170,
+      "price": 6485,
+      "prevClose": 6305,
       "currency": "JPY",
       "name": "ORIX CORPORATION",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "8604": {
-      "price": 1408.5,
-      "prevClose": 1414,
+      "price": 1436.5,
+      "prevClose": 1415,
       "currency": "JPY",
       "name": "NOMURA HOLDINGS INC.",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "8725": {
-      "price": 4551,
-      "prevClose": 4673,
+      "price": 4640,
+      "prevClose": 4616,
       "currency": "JPY",
       "name": "MS&AD INS GP HLDGS",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "8766": {
-      "price": 7194,
-      "prevClose": 7301,
+      "price": 7298,
+      "prevClose": 7288,
       "currency": "JPY",
       "name": "TOKIO MARINE HOLDINGS INC",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "9020": {
-      "price": 3415,
-      "prevClose": 3377,
+      "price": 3324,
+      "prevClose": 3398,
       "currency": "JPY",
       "name": "EAST JAPAN RAILWAY CO",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "9022": {
-      "price": 3256,
-      "prevClose": 3350,
+      "price": 3259,
+      "prevClose": 3351,
       "currency": "JPY",
       "name": "CENTRAL JAPAN RAILWAY CO",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "9101": {
-      "price": 5152,
-      "prevClose": 5524,
+      "price": 5203,
+      "prevClose": 5466,
       "currency": "JPY",
       "name": "NIPPON YUSEN KABUSHIKI KAISHA",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "9104": {
-      "price": 5264,
-      "prevClose": 5686,
+      "price": 5293,
+      "prevClose": 5559,
       "currency": "JPY",
       "name": "MITSUI O.S.K. LINES LTD",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "9107": {
-      "price": 2476,
-      "prevClose": 2637,
+      "price": 2523,
+      "prevClose": 2595,
       "currency": "JPY",
       "name": "KAWASAKI KISEN KAISHA",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "9432": {
-      "price": 144.4,
-      "prevClose": 146.6,
+      "price": 144,
+      "prevClose": 145.9,
       "currency": "JPY",
       "name": "NTT INC",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "9433": {
-      "price": 2721.5,
-      "prevClose": 2718,
+      "price": 2635.5,
+      "prevClose": 2714.5,
       "currency": "JPY",
       "name": "KDDI CORPORATION",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "9434": {
-      "price": 210.6,
-      "prevClose": 210.2,
+      "price": 208.8,
+      "prevClose": 211.6,
       "currency": "JPY",
       "name": "SOFTBANK CORP.",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "9766": {
-      "price": 17430,
-      "prevClose": 18960,
+      "price": 17705,
+      "prevClose": 19060,
       "currency": "JPY",
       "name": "KONAMI GROUP CORPORATION",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "9983": {
-      "price": 83100,
-      "prevClose": 81080,
+      "price": 81530,
+      "prevClose": 81950,
       "currency": "JPY",
       "name": "FAST RETAILING CO LTD",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     },
     "9984": {
-      "price": 7111,
-      "prevClose": 7139,
+      "price": 7244,
+      "prevClose": 7102,
       "currency": "JPY",
       "name": "SOFTBANK GROUP CORP",
-      "date": "2026-06-19"
+      "date": "2026-06-22"
     }
   }
 }
